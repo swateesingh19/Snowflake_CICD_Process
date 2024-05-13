@@ -1,1 +1,1 @@
-select * from DevDB.table;
+select * from %DevDBName%.table;
