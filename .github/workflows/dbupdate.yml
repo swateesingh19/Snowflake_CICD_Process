@@ -28,6 +28,11 @@ jobs:
       with:
         name: modified_file
         path: dbscripts/AlterScript.sql
+
+    - name: Install Snowflake CLI
+      run: |
+        pip install snowflake-connector-python
+        
     - name: Deploy SQL to Snowflake
       run: |
         # Use Snowflake CLI or any other tool to deploy SQL files
