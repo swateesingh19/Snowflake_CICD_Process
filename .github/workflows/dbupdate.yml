@@ -32,6 +32,11 @@ jobs:
     - name: Install Snowflake CLI
       run: |
         pip install snowflake-connector-python
+    
+    - name: Find Snowflake CLI executable
+      run: |
+        SNOWSQL_PATH=$(find / -name snowsql -type f -print -quit)
+        echo "Found Snowflake CLI at: $SNOWSQL_PATH"
 
     # - name: Add Snowflake CLI directory to PATH
     #   run: |
@@ -42,4 +47,4 @@ jobs:
       run: |
         # Use Snowflake CLI or any other tool to deploy SQL files
        
-        ~/.local/bin/snowsql -a "$SF_ACCOUNT" -u "$SF_USERNAME" -p "$SF_PASSWORD" -f dbscripts/AlterScript.sql -o friendly_format
+        $SNOWSQL_PATH -a "$SF_ACCOUNT" -u "$SF_USERNAME" -p "$SF_PASSWORD" -f dbscripts/AlterScript.sql -o friendly_format
