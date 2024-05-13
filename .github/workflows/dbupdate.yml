@@ -31,4 +31,5 @@ jobs:
     - name: Deploy SQL to Snowflake
       run: |
         # Use Snowflake CLI or any other tool to deploy SQL files
-        snowsql -f dbscripts/AlterScript.sql -o friendly_format
+       
+        snowsql -a "$SF_ACCOUNT" -u "$SF_USERNAME" -p "$SF_PASSWORD" -f dbscripts/AlterScript.sql -o friendly_format
