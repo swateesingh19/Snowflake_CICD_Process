@@ -1,9 +1,7 @@
 name: Deploy SQL to Snowflake
 
 on:
-  push:
-    branches:
-      - main
+  dispatch:
 
 jobs:
   deploy:
