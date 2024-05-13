@@ -52,7 +52,7 @@ jobs:
           
     - name: Deploy SQL to Snowflake
       run: |     
-        ~/bin/snowsql -a "$SF_ACCOUNT" -u "$SF_USERNAME" -p "$SF_PASSWORD" -f dbscripts/AlterScript.sql -o friendly_format
+        ~/bin/snowsql -a "$SF_ACCOUNT" -u "$SF_USERNAME" -p "$SF_PASSWORD" -f dbscripts/AlterScript.sql -o csv
         
     # - name: Deploy SQL to Snowflake
     #   run: |
