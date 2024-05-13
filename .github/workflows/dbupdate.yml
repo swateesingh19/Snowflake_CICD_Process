@@ -49,7 +49,13 @@ jobs:
     - name: Upload artifact to SnowSQL
       run: |
           ~/bin/snowsql -q 'put file://'$(pwd)'/dbscripts/AlterScript.sql @~/Demo overwrite=true' -o friendly=false
-    
+          
+    - name: Deploy SQL to Snowflake
+      run: |
+        # Use Snowflake CLI or any other tool to deploy SQL files
+       
+        ~/bin/snowsql -a "$SF_ACCOUNT" -u "$SF_USERNAME" -p "$SF_PASSWORD" -f dbscripts/AlterScript.sql -o friendly_format
+        
     # - name: Deploy SQL to Snowflake
     #   run: |
     #       ~/bin/snowsql -q 'CREATE OR REPLACE PROCEDURE  MYPROC(message STRING)
