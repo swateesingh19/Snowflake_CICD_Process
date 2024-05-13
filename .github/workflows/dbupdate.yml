@@ -1,7 +1,7 @@
 name: Deploy SQL to Snowflake
 
 on:
-  dispatch:
+  workflow_dispatch:
 
 jobs:
   deploy:
