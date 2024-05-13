@@ -32,6 +32,11 @@ jobs:
     - name: Install Snowflake CLI
       run: |
         pip install snowflake-connector-python
+
+    - name: Add Snowflake CLI directory to PATH
+      run: |
+        export PATH=$PATH:~/.local/bin  # Adjust the path if necessary
+        
         
     - name: Deploy SQL to Snowflake
       run: |
