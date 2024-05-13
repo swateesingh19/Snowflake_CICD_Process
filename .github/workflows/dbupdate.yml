@@ -51,9 +51,7 @@ jobs:
           ~/bin/snowsql -q 'put file://'$(pwd)'/dbscripts/AlterScript.sql @~/Demo overwrite=true' -o friendly=false
           
     - name: Deploy SQL to Snowflake
-      run: |
-        # Use Snowflake CLI or any other tool to deploy SQL files
-       
+      run: |     
         ~/bin/snowsql -a "$SF_ACCOUNT" -u "$SF_USERNAME" -p "$SF_PASSWORD" -f dbscripts/AlterScript.sql
         
     # - name: Deploy SQL to Snowflake
