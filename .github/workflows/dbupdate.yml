@@ -35,7 +35,7 @@ jobs:
     
     - name: Find Snowflake CLI executable
       run: |
-        SNOWSQL_PATH=$(find /usr/local/bin /usr/bin ~/.local/bin -name snowsql -type f -print -quit)
+        SNOWSQL_PATH=$(which snowsql)
         echo "Found Snowflake CLI at: $SNOWSQL_PATH"
 
     # - name: Add Snowflake CLI directory to PATH
