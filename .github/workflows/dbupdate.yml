@@ -21,14 +21,14 @@ jobs:
     - name: Replace placeholders in SQL template
       run: |
         # Replace placeholders with environment-specific values
-        sed -i "s/%DevDBName%/${{ secrets.DEVDBNAME }}/g" dbscripts/DBNew.sql
+        sed -i "s/%DemoDBNAME%/${{ secrets.DEMODBNAME }}/g" dbscripts/AlterScript.sql
 
     - name: Upload artifact file
       uses: actions/upload-artifact@v2
       with:
         name: modified_file
-        path: dbscripts/DBNew.sql
-    # - name: Deploy SQL to Snowflake
-    #   run: |
-    #     # Use Snowflake CLI or any other tool to deploy SQL files
-    #     snowsql -f template.sql -o friendly_format
+        path: dbscripts/AlterScript.sql
+    - name: Deploy SQL to Snowflake
+      run: |
+        # Use Snowflake CLI or any other tool to deploy SQL files
+        snowsql -f dbscripts/AlterScript.sql -o friendly_format
