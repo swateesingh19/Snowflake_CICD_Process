@@ -10,7 +10,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-      ref: Demo
+      with: 
+        ref: Demo
 
     - name: cwd
       run: |
