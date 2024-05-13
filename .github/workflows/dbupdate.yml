@@ -41,11 +41,15 @@ jobs:
       run: |
           curl -O https://sfc-repo.snowflakecomputing.com/snowsql/bootstrap/1.2/linux_x86_64/snowsql-1.2.9-linux_x86_64.bash
           SNOWSQL_DEST=~/bin SNOWSQL_LOGIN_SHELL=~/.profile bash snowsql-1.2.9-linux_x86_64.bash
-    
+          
+    - name: Version
+      run: |
+          ~/bin/snowsql --bootstrap-version
+          
     - name: Upload artifact to SnowSQL
       run: |
           ~/bin/snowsql -q 'put file://'$(pwd)'/dbscripts/AlterScript.sql @~/Demo overwrite=true' -o friendly=false
-      
+    
     # - name: Deploy SQL to Snowflake
     #   run: |
     #       ~/bin/snowsql -q 'CREATE OR REPLACE PROCEDURE  MYPROC(message STRING)
