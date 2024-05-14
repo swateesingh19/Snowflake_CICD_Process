@@ -1,0 +1,24 @@
+name: "DeploySnowFlakeCode"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  Deploy_Dev:
+    uses: swateesingh19/Snowflake_CICD_Process/.github/workflows/dbupdate.yml@main
+    with:
+      path: reuse
+      tf_vars_file: dev.tfvars
+      gh_environment: dev
+    secrets:
+      cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+  Deploy_Uat:
+    needs: Deploy_Dev
+    uses: RekhuGopal/gitreusableflows/.github/workflows/dbupdate.yml@Demo
+    with:
+      path: IAMRoles
+      tf_vars_file: dev.tfvars
+      gh_environment: dev
+    secrets:
+      cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
