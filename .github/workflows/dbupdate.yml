@@ -30,7 +30,7 @@ jobs:
     - name: Replace placeholders in SQL template
       run: |
         # Replace placeholders with environment-specific values
-        sed -i "s/%DEMODBNAME%/${{ secrets.DEMODBNAME }}/g" dbscripts/AlterScript.sql
+        sed -i "s/%DBNAME%/${{ secrets.DBNAME }}/g" dbscripts/AlterScript.sql
 
     - name: Upload artifact file
       uses: actions/upload-artifact@v2
