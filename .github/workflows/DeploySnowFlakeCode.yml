@@ -12,6 +12,7 @@ jobs:
 
   Deploy_QA:
     uses: swateesingh19/Snowflake_CICD_Process/.github/workflows/ReusableDeployEnvironment.yml@main
+    needs: Deploy_Dev
     with:
       environment: QA
     secrets: inherit
