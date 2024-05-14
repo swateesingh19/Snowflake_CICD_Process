@@ -1,12 +1,13 @@
 name: Deploy Environment
 
 on:
-  workflow_dispatch:
+  workflow_call:
 
-inputs:
-  name: environment
-  type: string
-  default: ""
+    inputs:
+      environment:
+        type: string
+        required: true
+        description: "environment deployment"
 
 
 jobs:
