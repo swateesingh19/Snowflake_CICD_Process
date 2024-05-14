@@ -56,7 +56,7 @@ jobs:
 
     - name: Deploy SQL to Snowflake
       run: |     
-        ~/bin/snowsql -a "$SNOWSQL_ACCOUNT" -u "swateesingh19" -p "Samaira25$" -f dbscripts/AlterScript.sql
+        ~/bin/snowsql -a "vi02661.central-india.azure" -u "swateesingh19" -p "Samaira25$" -f dbscripts/AlterScript.sql
         
     # - name: Deploy SQL to Snowflake
     #   run: |
