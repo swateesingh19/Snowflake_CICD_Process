@@ -8,10 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     environment: QA 
     env:
+      SNOWSQL_DATABASE: "DEMO_DB"
       SNOWSQL_PWD: "Samaira25"
       SNOWSQL_ACCOUNT: "vi02661.central-india.azure"
-      SNOWSQL_USER: "swateesingh19"
-      SNOWSQL_DATABASE: "DEMO_DB"
+      SNOWSQL_USER: "swateesingh19"      
       SNOWSQL_SCHEMA: "DEMO_SCHEMA"
       SNOWSQL_ROLE: "ACCOUNTADMIN"
       SNOWSQL_WAREHOUSE: "COMPUTE_WH"
