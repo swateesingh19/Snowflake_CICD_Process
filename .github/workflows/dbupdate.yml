@@ -6,7 +6,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: QA 
+    environment: DEV 
     env:
       SNOWSQL_PWD: ${{ secrets.SF_PASSWORD }}
       SNOWSQL_ACCOUNT: ${{ secrets.SF_ACCOUNT }}
