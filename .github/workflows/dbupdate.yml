@@ -8,13 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     environment: QA 
     env:
-      SNOWSQL_DATABASE: "DEMO_DB"
-      SNOWSQL_PWD: "Samaira25"
-      SNOWSQL_ACCOUNT: "vi02661.central-india.azure"
-      SNOWSQL_USER: "swateesingh19"      
-      SNOWSQL_SCHEMA: "DEMO_SCHEMA"
-      SNOWSQL_ROLE: "ACCOUNTADMIN"
-      SNOWSQL_WAREHOUSE: "COMPUTE_WH"
+      SNOWSQL_PWD: ${{ secrets.SF_PASSWORD }}
+      SNOWSQL_ACCOUNT: ${{ secrets.SF_ACCOUNT }}
+      SNOWSQL_USER: ${{ secrets.SF_USERNAME }}
+      SNOWSQL_DATABASE: ${{ secrets.SF_DATABASE }}
+      SNOWSQL_SCHEMA: ${{ secrets.SF_SCHEMA }}
+      SNOWSQL_ROLE: ${{ secrets.SF_ROLE }}
+      SNOWSQL_WAREHOUSE: ${{ secrets.SF_WAREHOUSE }}
+      
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -29,7 +30,7 @@ jobs:
     - name: Replace placeholders in SQL template
       run: |
         # Replace placeholders with environment-specific values
-        sed -i "s/%DemoDBNAME%/${{ secrets.DEMODBNAME }}/g" dbscripts/AlterScript.sql
+        sed -i "s/%DEMODBNAME%/${{ secrets.DEMODBNAME }}/g" dbscripts/AlterScript.sql
 
     - name: Upload artifact file
       uses: actions/upload-artifact@v2
