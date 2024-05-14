@@ -50,6 +50,13 @@ jobs:
       run: |
           ~/bin/snowsql -q 'put file://'$(pwd)'/dbscripts/AlterScript.sql @~/Demo overwrite=true' -o friendly=false
           
+    - name: Print Environment Variables
+      run: |
+        echo "SNOWSQL_ACCOUNT: $SNOWSQL_ACCOUNT"
+        echo "SNOWSQL_USER: $SNOWSQL_USER"
+        echo "SNOWSQL_DATABASE: $SNOWSQL_DATABASE"
+        echo "SNOWSQL_PWD: $SNOWSQL_PWD"
+        
     - name: Deploy SQL to Snowflake
       run: |     
         ~/bin/snowsql -a "$SNOWSQL_ACCOUNT" -u "$SNOWSQL_USER" -p "$SNOWSQL_PWD" -f dbscripts/AlterScript.sql
