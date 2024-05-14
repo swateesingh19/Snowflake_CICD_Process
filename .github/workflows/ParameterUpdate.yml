@@ -1,0 +1,95 @@
+name: Deploy Environment
+
+on:
+  workflow_dispatch:
+
+inputs:
+  name: environment
+  type: string
+  default: ""
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }} 
+    env:
+      SNOWSQL_PWD: ${{ secrets.SF_PASSWORD }}
+      SNOWSQL_ACCOUNT: ${{ secrets.SF_ACCOUNT }}
+      SNOWSQL_USER: ${{ secrets.SF_USERNAME }}
+      SNOWSQL_DATABASE: ${{ secrets.SF_DATABASE }}
+      SNOWSQL_SCHEMA: ${{ secrets.SF_SCHEMA }}
+      SNOWSQL_ROLE: ${{ secrets.SF_ROLE }}
+      SNOWSQL_WAREHOUSE: ${{ secrets.SF_WAREHOUSE }}
+      
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with: 
+        ref: Demo
+
+    - name: cwd
+      run: |
+        pwd
+        ls
+
+    - name: Replace placeholders in SQL template
+      run: |
+        # Replace placeholders with environment-specific values
+        sed -i "s/%DBNAME%/${{ secrets.DBNAME }}/g" dbscripts/AlterScript.sql
+
+    - name: Upload artifact file
+      uses: actions/upload-artifact@v2
+      with:
+        name: modified_file
+        path: dbscripts/AlterScript.sql
+
+    - name: Install SnowSQL
+      run: |
+          curl -O https://sfc-repo.snowflakecomputing.com/snowsql/bootstrap/1.2/linux_x86_64/snowsql-1.2.9-linux_x86_64.bash
+          SNOWSQL_DEST=~/bin SNOWSQL_LOGIN_SHELL=~/.profile bash snowsql-1.2.9-linux_x86_64.bash
+          
+    - name: Version
+      run: |
+          ~/bin/snowsql --bootstrap-version
+          
+    - name: Upload artifact to SnowSQL
+      run: |
+          ~/bin/snowsql -q 'put file://'$(pwd)'/dbscripts/AlterScript.sql @~/Demo overwrite=true' 
+          
+    - name: Print Environment Variables
+      run: |
+        echo "SNOWSQL_ACCOUNT: $SNOWSQL_ACCOUNT"
+        echo "SNOWSQL_USER: $SNOWSQL_USER"
+        echo "SNOWSQL_DATABASE: $SNOWSQL_DATABASE"
+        echo "SNOWSQL_PWD: $SNOWSQL_PWD"
+        
+    # - name: Deploy SQL to Snowflake
+    #   run: |     
+    #     ~/bin/snowsql -q 'ALTER TABLE DEMO_DB.DEMO_SCHEMA.FIRST_TABLE_CICD ADD COLUMN GENDER VARCHAR;' -o friendly=false
+
+    - name: Deploy SQL to Snowflake
+      run: |     
+        ~/bin/snowsql -f dbscripts/AlterScript.sql
+
+    # - name: Deploy SQL to Snowflake
+    #   run: |     
+    #     ~/bin/snowsql -a ${{ secrets.SF_ACCOUNT }}  -u ${{ secrets.SF_USERNAME }} -p ${{ secrets.SF_PASSWORD }} -f dbscripts/AlterScript.sql
+
+    # - name: Deploy SQL to Snowflake
+    #   run: |     
+    #     ~/bin/snowsql -a "$SNOWSQL_ACCOUNT" -u "$SNOWSQL_USER" -p "$SNOWSQL_PWD" -f dbscripts/AlterScript.sql
+
+    # - name: Deploy SQL to Snowflake
+    #   run: |     
+    #     ~/bin/snowsql -a "vi02661.central-india.azure" -u "swateesingh19" -p "Samaira25$" -f dbscripts/AlterScript.sql
+        
+    # - name: Deploy SQL to Snowflake
+    #   run: |
+    #       ~/bin/snowsql -q 'CREATE OR REPLACE PROCEDURE  MYPROC(message STRING)
+    #                                     RETURNS STRING
+    #                                     LANGUAGE PYTHON
+    #                                     RUNTIME_VERSION = '\''3.8'\''
+    #                                     PACKAGES = ('')
+    #                                     IMPORTS = ('\''@~/${{ github.ref_name }}/storedproc.py'\'')
+    #                                     HANDLER = '\''storedproc.run'\'';' -o friendly=false
