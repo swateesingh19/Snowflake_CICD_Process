@@ -57,6 +57,10 @@ jobs:
         echo "SNOWSQL_DATABASE: $SNOWSQL_DATABASE"
         echo "SNOWSQL_PWD: $SNOWSQL_PWD"
         
+    # - name: Deploy SQL to Snowflake
+    #   run: |     
+    #     ~/bin/snowsql -q 'ALTER TABLE DEMO_DB.DEMO_SCHEMA.FIRST_TABLE_CICD ADD COLUMN GENDER VARCHAR;' -o friendly=false
+
     - name: Deploy SQL to Snowflake
       run: |     
         ~/bin/snowsql -a "$SNOWSQL_ACCOUNT" -u "$SNOWSQL_USER" -p "$SNOWSQL_PWD" -f dbscripts/AlterScript.sql
