@@ -64,7 +64,11 @@ jobs:
 
     - name: Deploy SQL to Snowflake
       run: |     
-        ~/bin/snowsql -a "$SNOWSQL_ACCOUNT" -u "$SNOWSQL_USER" -p "$SNOWSQL_PWD" -f dbscripts/AlterScript.sql
+        ~/bin/snowsql -f dbscripts/AlterScript.sql
+
+    # - name: Deploy SQL to Snowflake
+    #   run: |     
+    #     ~/bin/snowsql -a "$SNOWSQL_ACCOUNT" -u "$SNOWSQL_USER" -p "$SNOWSQL_PWD" -f dbscripts/AlterScript.sql
 
     # - name: Deploy SQL to Snowflake
     #   run: |     
