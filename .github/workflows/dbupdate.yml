@@ -47,9 +47,9 @@ jobs:
       run: |
           ~/bin/snowsql --bootstrap-version
           
-    - name: Upload artifact to SnowSQL
-      run: |
-          ~/bin/snowsql -q 'put file://'$(pwd)'/dbscripts/AlterScript.sql @~/Demo overwrite=true' -a ${{ secrets.SF_ACCOUNT }}  -u ${{ secrets.SF_USERNAME }} -p ${{ secrets.SF_PASSWORD }}
+    # - name: Upload artifact to SnowSQL
+    #   run: |
+    #       ~/bin/snowsql -q 'put file://'$(pwd)'/dbscripts/AlterScript.sql @~/Demo overwrite=true' -a ${{ secrets.SF_ACCOUNT }}  -u ${{ secrets.SF_USERNAME }} -p ${{ secrets.SF_PASSWORD }}
           
     - name: Print Environment Variables
       run: |
