@@ -7,14 +7,14 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     environment: QA 
-    env:
-      SNOWSQL_PWD: ${{ secrets.SF_PASSWORD }}
-      SNOWSQL_ACCOUNT: ${{ secrets.SF_ACCOUNT }}
-      SNOWSQL_USER: ${{ secrets.SF_USERNAME }}
-      SNOWSQL_DATABASE: ${{ secrets.SF_DATABASE }}
-      SNOWSQL_SCHEMA: ${{ secrets.SF_SCHEMA }}
-      SNOWSQL_ROLE: ${{ secrets.SF_ROLE }}
-      SNOWSQL_WAREHOUSE: ${{ secrets.SF_WAREHOUSE }}
+    # env:
+    #   SNOWSQL_PWD: ${{ secrets.SF_PASSWORD }}
+    #   SNOWSQL_ACCOUNT: ${{ secrets.SF_ACCOUNT }}
+    #   SNOWSQL_USER: ${{ secrets.SF_USERNAME }}
+    #   SNOWSQL_DATABASE: ${{ secrets.SF_DATABASE }}
+    #   SNOWSQL_SCHEMA: ${{ secrets.SF_SCHEMA }}
+    #   SNOWSQL_ROLE: ${{ secrets.SF_ROLE }}
+    #   SNOWSQL_WAREHOUSE: ${{ secrets.SF_WAREHOUSE }}
       
     steps:
     - name: Checkout code
@@ -62,9 +62,13 @@ jobs:
     #   run: |     
     #     ~/bin/snowsql -q 'ALTER TABLE DEMO_DB.DEMO_SCHEMA.FIRST_TABLE_CICD ADD COLUMN GENDER VARCHAR;' -o friendly=false
 
+    # - name: Deploy SQL to Snowflake
+    #   run: |     
+    #     ~/bin/snowsql -f dbscripts/AlterScript.sql
+
     - name: Deploy SQL to Snowflake
       run: |     
-        ~/bin/snowsql -f dbscripts/AlterScript.sql
+        ~/bin/snowsql -a ${{ secrets.SF_ACCOUNT }}  -u ${{ secrets.SF_USERNAME }} -p ${{ secrets.SF_PASSWORD }} -f dbscripts/AlterScript.sql
 
     # - name: Deploy SQL to Snowflake
     #   run: |     
