@@ -22,12 +22,16 @@ jobs:
       SNOWSQL_SCHEMA: ${{ secrets.SF_SCHEMA }}
       SNOWSQL_ROLE: ${{ secrets.SF_ROLE }}
       SNOWSQL_WAREHOUSE: ${{ secrets.SF_WAREHOUSE }}
+      SQL_FOLDER: 'dbscripts'
       
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
      
-
+    - name: List SQL Files
+      run: echo "Listinng SQL Files in $SQL_FOLDER"
+        ls $SQL_FOLDER
+        
     - name: cwd
       run: |
         pwd
@@ -36,13 +40,13 @@ jobs:
     - name: Replace placeholders in SQL template
       run: |
         # Replace placeholders with environment-specific values
-        sed -i "s/%DBNAME%/${{ secrets.DBNAME }}/g" dbscripts/AlterScript.sql
+        sed -i "s/%DBNAME%/${{ secrets.DBNAME }}/g" $SQL_FOLDER
 
     - name: Upload artifact file
       uses: actions/upload-artifact@v2
       with:
         name: modified_file
-        path: dbscripts/AlterScript.sql
+        path: $SQL_FOLDER
 
     - name: Install SnowSQL
       run: |
@@ -55,7 +59,7 @@ jobs:
           
     - name: Upload artifact to SnowSQL
       run: |
-          ~/bin/snowsql -q 'put file://'$(pwd)'/dbscripts/ @~/Demo overwrite=true' 
+          ~/bin/snowsql -q 'put file://'$(pwd)'$SQL_FOLDER @~/Demo overwrite=true' 
           
     - name: Print Environment Variables
       run: |
@@ -70,7 +74,8 @@ jobs:
 
     - name: Deploy SQL to Snowflake
       run: |     
-        ~/bin/snowsql -f dbscripts/AlterScript.sql
+        ~/bin/snowsql -f $SQL_FOLDER
+        
 
     # - name: Deploy SQL to Snowflake
     #   run: |     
