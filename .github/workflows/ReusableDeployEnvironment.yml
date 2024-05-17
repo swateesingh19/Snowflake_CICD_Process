@@ -38,21 +38,30 @@ jobs:
         pwd
         ls
 
+    - name: Concatenate SQL Files
+      run: |
+        cat $SQL_FOLDER/*.sql > combined.sql
+
     - name: Replace placeholders in SQL template
       run: |
         # Replace placeholders with environment-specific values
-        # sed -i "s/%DBNAME%/${{ secrets.DBNAME }}/g" $SQL_FOLDER/*.sql
-        for file in $SQL_FOLDER/*.sql;
-         do
-          echo "Processing $file"
-          sed -i "s/%DBNAME%/${{ secrets.DBNAME }}/g" "$file"
-         done        
+        sed -i "s/%DBNAME%/${{ secrets.DBNAME }}/g" combined.sql
+        
+    # - name: Replace placeholders in SQL template
+    #   run: |
+    #     # Replace placeholders with environment-specific values
+    #     # sed -i "s/%DBNAME%/${{ secrets.DBNAME }}/g" $SQL_FOLDER/*.sql
+    #     for file in $SQL_FOLDER/*.sql;
+    #      do
+    #       echo "Processing $file"
+    #       sed -i "s/%DBNAME%/${{ secrets.DBNAME }}/g" "$file"
+    #      done        
 
-    - name: Upload artifact file
-      uses: actions/upload-artifact@v2
-      with:
-        name: modified_file
-        path: $SQL_FOLDER
+    # - name: Upload artifact file
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: modified_file
+    #     path: $SQL_FOLDER
 
     - name: Install SnowSQL
       run: |
@@ -65,7 +74,7 @@ jobs:
           
     - name: Upload artifact to SnowSQL
       run: |
-          ~/bin/snowsql -q 'put file://'$(pwd)'$SQL_FOLDER/*.sql @~/Demo overwrite=true' 
+          ~/bin/snowsql -q 'put file://'$(pwd)'combined.sql @~/Demo overwrite=true' 
           
     - name: Print Environment Variables
       run: |
@@ -80,7 +89,7 @@ jobs:
 
     - name: Deploy SQL to Snowflake
       run: |     
-        ~/bin/snowsql -f $SQL_FOLDER
+        ~/bin/snowsql -f combined.sql
         
 
     # - name: Deploy SQL to Snowflake
