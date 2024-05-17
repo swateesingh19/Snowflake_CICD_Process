@@ -29,7 +29,8 @@ jobs:
       uses: actions/checkout@v2
      
     - name: List SQL Files
-      run: echo "Listinng SQL Files in $SQL_FOLDER"
+      run: |
+        echo "Listinng SQL Files in $SQL_FOLDER"
         ls $SQL_FOLDER
         
     - name: cwd
