@@ -36,13 +36,13 @@ jobs:
     - name: Replace placeholders in SQL template
       run: |
         # Replace placeholders with environment-specific values
-        sed -i "s/%DBNAME%/${{ secrets.DBNAME }}/g" dbscripts/AlterScript.sql
+        sed -i "s/%DBNAME%/${{ secrets.DBNAME }}/g" dbscripts/
 
     - name: Upload artifact file
       uses: actions/upload-artifact@v2
       with:
         name: modified_file
-        path: dbscripts/AlterScript.sql
+        path: dbscripts/
 
     - name: Install SnowSQL
       run: |
@@ -55,7 +55,7 @@ jobs:
           
     - name: Upload artifact to SnowSQL
       run: |
-          ~/bin/snowsql -q 'put file://'$(pwd)'/dbscripts/AlterScript.sql @~/Demo overwrite=true' 
+          ~/bin/snowsql -q 'put file://'$(pwd)'/dbscripts/ @~/Demo overwrite=true' 
           
     - name: Print Environment Variables
       run: |
@@ -70,7 +70,7 @@ jobs:
 
     - name: Deploy SQL to Snowflake
       run: |     
-        ~/bin/snowsql -f dbscripts/AlterScript.sql
+        ~/bin/snowsql -f dbscripts/
 
     # - name: Deploy SQL to Snowflake
     #   run: |     
