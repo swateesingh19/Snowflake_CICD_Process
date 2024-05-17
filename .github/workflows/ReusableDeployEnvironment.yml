@@ -72,9 +72,9 @@ jobs:
       run: |
           ~/bin/snowsql --bootstrap-version
           
-    - name: Upload artifact to SnowSQL
-      run: |
-          ~/bin/snowsql -q 'put file://'$(pwd)'combined.sql @~/Demo overwrite=true' 
+    # - name: Upload artifact to SnowSQL
+    #   run: |
+    #       ~/bin/snowsql -q 'put file://'$(pwd)' combined.sql @~/Demo overwrite=true' 
           
     - name: Print Environment Variables
       run: |
